@@ -1,4 +1,8 @@
 def main():
+    """
+    Тhe function analyzes three types of duopoly and determines the best option for market participants
+    :return: None
+    """
     a, b, c = q_d()
     mc1, mc2 = mc()
     tc1 = 0
@@ -25,6 +29,10 @@ def main():
 
 
 def q_d():
+    """
+    requests a demand function or an inverse demand function
+    :return:the coefficients of the demand function and the variable with respect to which it is set
+    """
     n = ''
     while True:
         qd = input('Введите функцию рыночного спроса в формате a-bP или обратную функцию спроса a-bQ:').lower().strip()
@@ -48,6 +56,10 @@ def q_d():
 
 
 def mc():
+    """
+    Requests marginal costs of firms
+    :return: marginal cost values
+    """
     while True:
         o = input('Вам известны предельные издержки фирм? Введите 1 или 0:').lower()
         if o == '1':
@@ -68,6 +80,10 @@ def mc():
 
 
 def tc():
+    """
+    Requests total costs of firms
+    :return: total cost values
+    """
     while True:
         tot = input('Введите значение общих издержек первой фирмы или 0:')
         try:
@@ -79,20 +95,48 @@ def tc():
 
 
 def cournot(x, y, c1, c2):
-    q1 = (x + c2 - 2 * c1) / (3 * y)  # объем продаж первого
-    q2 = ((x - c1) / y) - 2 * q1  # объем продаж второго
+    """
+    Calculates the output of firms in the cournot duopoly model
+    :param x:coefficient of the demand function
+    :param y:coefficient of the demand function
+    :param c1:marginal cost of the first company
+    :param c2:marginal cost of the second company
+    :return: output of firms in the cournot duopoly model
+    """
+    q1 = (x + c2 - 2 * c1) / (3 * y)
+    q2 = ((x - c1) / y) - 2 * q1
     print('|{:^167s}|'.format('Дуополия Курно'))
     return q1, q2
 
 
-def shtakelberg(x, y, cl, cp):
-    ql = (x + cp - (2 * cl)) / (2 * y)
-    qp = (x - cp) / (2 * y) - ql / 2
+def shtakelberg(x, y, cl, cf):
+    """
+    Calculates the output of firms in the cournot duopoly model
+    :param x:coefficient of the demand function
+    :param y:coefficient of the demand function
+    :param cl:marginal cost of the lieder company
+    :param cf:marginal cost of the follow company
+    :return: output of firms in the cournot duopoly model
+    """
+    ql = (x + cf - (2 * cl)) / (2 * y)
+    qf = (x - cf) / (2 * y) - ql / 2
 
-    return ql, qp
+    return ql, qf
 
 
 def equilibrium(p1, p2, x, y, c1, c2, tot1, tot2):
+    """
+
+    :param p1: production of the first company
+    :param p2: production of the second company
+    :param x: coefficient of the demand function
+    :param y: coefficient of the demand function
+    :param c1: marginal cost of the first company
+    :param c2: marginal cost of the second company
+    :param tot1: total cost of the first company
+    :param tot2: total cost of the second company
+    :return: profit of companies and the market price
+    """
     q = p1 + p2
     p = x - y * q  # рыночная цена
     if c1 != 0:
@@ -114,6 +158,10 @@ def equilibrium(p1, p2, x, y, c1, c2, tot1, tot2):
 
 
 def table():
+    """
+    Create a table for calculated market equilibrium parameters
+    :return:None.
+    """
     print('_' * 168)
     t = ['Равновесный объем', 'Равновесная цена', 'Прибыль', 'Рыночная доля']
     w = ['первого', 'второго', 'рынка', '']
@@ -125,6 +173,13 @@ def table():
 
 
 def benefit(x, y, z):
+    """
+    Determines the best option for a particular market participant
+    :param x:value in duopoly of Cournot
+    :param y:value in duopoly of Shtakelberg. lieder- first company
+    :param z:value in duopoly of Shtakelberg. lieder- second company
+    :return: the most profitable type of duopoly
+    """
     t = max(x, y, z)
     if t == x:
         u = 'Дуаполия Курно'
